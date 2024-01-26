@@ -32,7 +32,7 @@ target = 100
 print("Opening camera")
 try:
     for _ in range(10):
-        i = 1
+        i = 0
         cap = cv2.VideoCapture(i)
 
         if cap.isOpened():
