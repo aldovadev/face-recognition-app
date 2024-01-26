@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import time
 import os
+import json
 
 # Define relative paths
 base_path = os.path.dirname(os.path.abspath(__file__))
@@ -13,7 +14,19 @@ models_path = os.path.join(base_path, "Models/Models.yml")
 face_cascade = cv2.CascadeClassifier(haarcascades_path)
 
 # SETELAH MENAMBAHKAN SAMPLE BARU TAMBAHKAN NAMA DISINI
-names = ["Aldova", "Rini"]
+names = []
+filename = "names.json"
+
+# Load JSON data from the file
+try:
+    with open(filename, "r") as file:
+        data = json.load(file)
+except FileNotFoundError:
+    print(f"File '{filename}' not found.")
+    data = []
+
+# Extract "name" property from each object and create a string array
+names = [item["name"] for item in data]
 
 try:
     model = cv2.face.LBPHFaceRecognizer_create()

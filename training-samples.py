@@ -26,7 +26,7 @@ for path, subdirname, filenames in os.walk(parent_dir):
             cv2.imshow("Input", images)
 
             Training_Data.append(np.asarray(images, dtype=np.uint8))
-            Labels.append(int(id))
+            Labels.append(id)
             k = cv2.waitKey(5)
 
 Labels = np.asarray(Labels, dtype=np.int32)

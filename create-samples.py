@@ -1,5 +1,7 @@
 import cv2
 import os
+import json
+import subprocess
 
 id = []
 
@@ -18,7 +20,31 @@ if not id:
 else:
     id_new = str(int(id[-1]) + 1)
 
-print(id_new)
+# Prompt the user to input a name
+user_input_name = input("Enter a name: ")
+
+# Create a dictionary with id and name
+data = {"id": id_new, "name": user_input_name}
+
+filename = "names.json"
+
+# Step 1: Load existing JSON data (if any)
+try:
+    with open(filename, "r") as file:
+        existing_data = json.load(file)
+except FileNotFoundError:
+    existing_data = []
+
+# Step 2: Append the new data to the loaded JSON data
+print(existing_data)
+existing_data.append(data)
+
+# Step 3: Write the updated JSON data back to the file
+with open(filename, "w") as file:
+    json.dump(existing_data, file, indent=2)
+
+print("Data saved to", filename)
+
 created_dir = os.path.join(parent_dir, id_new)
 os.makedirs(created_dir)  # Using os.makedirs to create nested directories if necessary
 
@@ -94,3 +120,8 @@ while True:
 cap.release()
 cv2.destroyAllWindows()
 print("Collecting samples completed!")
+
+training_script_path = "training-samples.py"  # Update with the correct path
+subprocess.run(["python", training_script_path])
+
+print("Training samples completed!")
