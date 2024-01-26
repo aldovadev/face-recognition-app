@@ -1,7 +1,7 @@
 import cv2
 import os
 
-id = [None]
+id = []
 
 parent_dir = (
     "Samples"  # Assuming Samples folder is in the same directory as this script
@@ -13,12 +13,10 @@ for path, subdirname, filenames in os.walk(parent_dir):
     else:
         id.append(os.path.basename(path))
 
-id.remove(None)
-
-if id[0] == None:
+if not id:
     id_new = "0"
 else:
-    id_new = str(int(id[len(id) - 1]) + 1)
+    id_new = str(int(id[-1]) + 1)
 
 print(id_new)
 created_dir = os.path.join(parent_dir, id_new)
@@ -34,7 +32,7 @@ target = 100
 print("Opening camera")
 try:
     for _ in range(10):
-        i = 0
+        i = 1
         cap = cv2.VideoCapture(i)
 
         if cap.isOpened():
