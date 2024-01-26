@@ -1,5 +1,5 @@
 import json
-import os
+import shutil
 
 filename = "names.json"
 
@@ -21,14 +21,11 @@ with open(filename, "w") as file:
 print(f"Data in '{filename}' cleared.")
 
 
-# Step 2: Clear all files inside the "Samples" folder
 folder_samples = "Samples"
-for file_sample in os.listdir(folder_samples):
-    file_path_sample = os.path.join(folder_samples, file_sample)
-    try:
-        if os.path.isfile(file_path_sample):
-            os.unlink(file_path_sample)
-    except Exception as e:
-        print(f"Error deleting {file_path_sample}: {e}")
 
-print(f"Files in '{folder_samples}' cleared.")
+try:
+    shutil.rmtree(folder_samples)
+except Exception as e:
+    print(f"Error deleting {folder_samples}: {e}")
+
+print(f"Folder '{folder_samples}' deleted.")
