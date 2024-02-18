@@ -1,8 +1,9 @@
 import cv2
-import numpy as np
 import time
 import os
 import json
+import serial
+
 
 # Define relative paths
 base_path = os.path.dirname(os.path.abspath(__file__))
@@ -13,7 +14,6 @@ models_path = os.path.join(base_path, "Models/Models.yml")
 
 face_cascade = cv2.CascadeClassifier(haarcascades_path)
 
-# SETELAH MENAMBAHKAN SAMPLE BARU TAMBAHKAN NAMA DISINI
 names = []
 filename = "names.json"
 
@@ -58,6 +58,14 @@ if not cap.isOpened():
 
 print("Press q to quit")
 
+# Serial communication setup
+ser = serial.Serial("COM5", 9600)
+ser.timeout = 1
+time.sleep(2)
+last_write_time = 0
+write_interval = 2.5
+
+
 while 1:
     _, img = cap.read()
     img = cv2.flip(img, 1)
@@ -88,6 +96,15 @@ while 1:
                     2,
                 )
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+
+                # Sending data name to arduino
+                current_time = time.time()
+                if current_time - last_write_time >= write_interval:
+                    name = str(names[id]) + "\n"
+                    ser.write(name.encode())
+                    ser.flush()
+                    last_write_time = current_time
+                    time.sleep(0.2)
 
             else:
                 cv2.putText(
