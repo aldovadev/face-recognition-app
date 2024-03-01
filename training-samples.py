@@ -5,9 +5,7 @@ import time
 
 Training_Data = []
 Labels = []
-parent_dir = (
-    "Samples"  # Assuming Samples folder is in the same directory as this script
-)
+parent_dir = "Samples"
 
 # Define a fixed size for your images (adjust as needed)
 img_size = (200, 200)
