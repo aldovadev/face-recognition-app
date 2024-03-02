@@ -1,23 +1,24 @@
-#TEST# Face Recognition App
+# Face Recognition App
 
 This Python application implements a face recognition system using the OpenCV library. The application detects and recognizes faces in images or real-time video streams. It provides functionalities to create samples for face recognition, reset the samples, train the samples into a model, and run the face recognition system.
 
 ## How to Use
 
-1. **Create Samples**: 
-    - Run `create-samples.py` to capture samples of faces for training the recognition model.
+1. **Install Dependency**: 
+    - Run `pip install -r requirements.txt` to install the necessary dependencies for the application.
+    - These dependencies include the required packages and libraries for capturing samples of faces and training the recognition model.
     - Follow the on-screen instructions to capture multiple samples for each person.
 
-2. **Reset Samples**: 
+2. **Create Samples**: 
+    - Run `python create-samples.py` to capture samples of faces for training the recognition model.
+    - Follow the on-screen instructions to capture multiple samples for each person.
+
+3. **Reset Samples**: 
     - Run `reset.py` to delete all previously captured samples.
     - This is useful when you want to start fresh with a new set of samples.
 
-3. **Train Samples**: 
-    - Run `training-samples.py` to train the captured samples into a recognition model (`model.yml`).
-    - The model will be trained based on the captured samples to recognize faces accurately.
-
 4. **Run the Application**: 
-    - Run `main.py` to start the face recognition application.
+    - Run `pyhton main.py` to start the face recognition application.
     - The application will use the trained model to recognize faces in images or real-time video streams.
 
 ## Algorithm Overview
