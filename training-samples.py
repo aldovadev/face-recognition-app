@@ -31,8 +31,12 @@ Labels = np.asarray(Labels, dtype=np.int32)
 awal = time.time()
 
 # Using __file__ to get the current script's directory
-script_dir = os.path.dirname(os.path.abspath(__file__))
-model_path = os.path.join(script_dir, "Models/Models.yml")
+parent_dir = "models"
+
+if not os.path.exists(parent_dir):
+    os.makedirs(parent_dir)
+
+model_path = os.path.join(parent_dir, "model.yml")
 
 model = cv2.face.LBPHFaceRecognizer_create()
 model.train(np.asarray(Training_Data), np.asarray(Labels))

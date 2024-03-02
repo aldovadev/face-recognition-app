@@ -1,16 +1,10 @@
 import cv2
-import time
 import os
 import json
-import serial
-
 
 # Define relative paths
-base_path = os.path.dirname(os.path.abspath(__file__))
-haarcascades_path = os.path.join(
-    base_path, "haarcascades/haarcascade_frontalface_alt2.xml"
-)
-models_path = os.path.join(base_path, "Models/Models.yml")
+haarcascades_path = "haarcascades/haarcascade_frontalface_alt2.xml"
+models_path = "models/model.yml"
 
 face_cascade = cv2.CascadeClassifier(haarcascades_path)
 
@@ -58,14 +52,6 @@ if not cap.isOpened():
 
 print("Press q to quit")
 
-# Serial communication setup
-ser = serial.Serial("COM5", 9600)
-ser.timeout = 1
-time.sleep(2)
-last_write_time = 0
-write_interval = 2.5
-
-
 while 1:
     _, img = cap.read()
     img = cv2.flip(img, 1)
@@ -83,7 +69,6 @@ while 1:
             if result[1] < 500:
                 confidence = int(100 * (1 - (result[1]) / 300))
                 id = result[0]
-                print(id, confidence)
 
             if confidence >= 83:
                 cv2.putText(
@@ -97,15 +82,6 @@ while 1:
                 )
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
 
-                # Sending data name to arduino
-                current_time = time.time()
-                if current_time - last_write_time >= write_interval:
-                    name = str(names[id]) + "\n"
-                    ser.write(name.encode())
-                    ser.flush()
-                    last_write_time = current_time
-                    time.sleep(0.2)
-
             else:
                 cv2.putText(
                     img,
@@ -117,7 +93,6 @@ while 1:
                     2,
                 )
                 cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
-
         except:
             pass
 

@@ -5,20 +5,21 @@ import subprocess
 
 id = []
 
-parent_dir = (
-    "Samples"  # Assuming Samples folder is in the same directory as this script
-)
+parent_dir = "samples"
 
-for path, subdirname, filenames in os.walk(parent_dir):
-    if os.path.basename(path) == "Samples":
-        continue
-    else:
-        id.append(os.path.basename(path))
+if not os.path.exists(parent_dir):
+    os.makedirs(parent_dir)
+
+id = [
+    int(name)
+    for name in os.listdir(parent_dir)
+    if os.path.isdir(os.path.join(parent_dir, name))
+]
 
 if not id:
     id_new = "0"
 else:
-    id_new = str(int(id[-1]) + 1)
+    id_new = max(id) + 1
 
 # Prompt the user to input a name
 user_input_name = input("Enter a name: ")
@@ -46,7 +47,7 @@ with open(filename, "w") as file:
 print("Data saved to", filename)
 
 created_dir = os.path.join(parent_dir, id_new)
-os.makedirs(created_dir)  # Using os.makedirs to create nested directories if necessary
+os.makedirs(created_dir)
 
 cap = None
 count = 0
@@ -108,7 +109,7 @@ while True:
 
     img = cv2.flip(img, 1)
 
-    if create_sample(img) is None:
+    if create_sample(img) == None:
         pass
 
     cv2.imshow("Training camera", img)
@@ -121,7 +122,7 @@ cap.release()
 cv2.destroyAllWindows()
 print("Collecting samples completed!")
 
-training_script_path = "training-samples.py"  # Update with the correct path
+training_script_path = "training-samples.py"
 subprocess.run(["python", training_script_path])
 
 print("Training samples completed!")
